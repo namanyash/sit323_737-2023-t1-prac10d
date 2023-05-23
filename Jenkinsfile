@@ -17,7 +17,7 @@ pipeline {
             echo "Success"
 		}
 	   }
-         stage('build'){  steps {  sh "docker build -t namanyash/sit737-ci-cd:${env.BUILD_ID} ." }  }
+         stage('build'){  steps {  sh "docker build -t namanyash/sit737-ci-cd:${env.BUILD_ID} ."  -v "$(which docker):/usr/bin/docker" }  }
          stage('Login'){  steps {  sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin ' }}
          stage('Push'){  steps {  sh "docker push tfkben/ben:latest"}   }       
     }
