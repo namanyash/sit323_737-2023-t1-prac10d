@@ -10,9 +10,10 @@ pipeline {
     stages {	
 	   stage('Test') { 
 		steps {
-	          echo "Testing..."
-              sleep 10s
-              echo "Success"
+	         echo "Testing..."
+            //do some tests
+            sleep(time:3,unit:"SECONDS")
+            echo "Success"
 		}
 	   }
 	   stage('Build Docker Image') { 
