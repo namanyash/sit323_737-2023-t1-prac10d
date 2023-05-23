@@ -16,12 +16,15 @@ pipeline {
             echo "Success"
 		}
 	   }
-       stage('Initialize'){
-         steps {
-        def dockerHome = tool 'myDocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
-         }
-    }
+       stage('Initialize') {
+            steps {
+                script {
+                    def dockerHome = tool 'myDocker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                }
+                echo "Initialization complete"
+            }
+        }
 	   stage('Build Docker Image') { 
 		steps {
 		   sh 'whoami'
