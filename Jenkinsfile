@@ -7,10 +7,7 @@ pipeline {
                 LOCATION = 'australia-southeast1'
                 CREDENTIALS_ID = 'gcp_cred'		
 	}
-	
     stages {	
-          
-	    
 	   stage('Test') { 
 		steps {
 	          echo "Testing..."
