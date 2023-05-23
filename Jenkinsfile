@@ -6,7 +6,6 @@ pipeline {
                 CLUSTER_NAME = 'sit737-cluster-node'
                 LOCATION = 'australia-southeast1'
                 CREDENTIALS_ID = 'gcp_cred'		
-                DOCKERHUB_CREDENTIALS = credentials('dockerhub')
 	}
     stages {	
 	   stage('Test') { 
@@ -17,8 +16,34 @@ pipeline {
             echo "Success"
 		}
 	   }
-         stage('build'){  steps {  sh "docker build -t namanyash/sit737-ci-cd:${env.BUILD_ID} .  -v $(which docker):/usr/bin/docker  -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts" }  }
-         stage('Login'){  steps {  sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin ' }}
-         stage('Push'){  steps {  sh "docker push tfkben/ben:latest"}   }       
+	   stage('Build Docker Image') { 
+		steps {
+		   sh 'whoami'
+                   script {
+		      myimage = docker.build("namanyash/sit737-ci-cd:${env.BUILD_ID}")
+                   }
+                }
+	   }
+	   stage("Push Docker Image") {
+                steps {
+                   script {
+                      docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                      myimage.push("${env.BUILD_ID}")
+                     }   
+                   }
+                }
+            }
+	   
+           stage('Deploy to K8s') { 
+                steps{
+                   echo "Deployment started ..."
+		   sh 'ls -ltr'
+		   sh 'pwd'
+		   sh "sed -i 's/tagversion/${env.BUILD_ID}/g' deployment.yaml"
+                   step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+		   echo "Deployment Finished ..."
+            }
+	   }
+       
     }
 }
