@@ -3,11 +3,16 @@ pipeline {
 	environment {
 		
 		PROJECT_ID = 'sit737'
-                CLUSTER_NAME = 'sit737-cluster-node'
-                LOCATION = 'australia-southeast1'
-                CREDENTIALS_ID = 'gcp_cred'		
+                CLUSTER_NAME = 'sit737-cicd-cluster'
+                LOCATION = 'us-east1-d'
+                CREDENTIALS_ID = 'kubernetes'		
 	}
     stages {	
+      stage('Scm checkout'{
+         steps{
+            checkout scm
+         }
+      })
 	   stage('Test') { 
 		steps {
 	         echo "Testing..."
@@ -16,15 +21,6 @@ pipeline {
             echo "Success"
 		}
 	   }
-       stage('Initialize') {
-            steps {
-                script {
-                    def dockerHome = tool 'myDocker'
-                    env.PATH = "${dockerHome}/bin:${env.PATH}"
-                }
-                echo "Initialization complete"
-            }
-        }
 	   stage('Build Docker Image') { 
 		steps {
 		   sh 'whoami'

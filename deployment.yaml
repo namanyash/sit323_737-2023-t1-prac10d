@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ci-cd-node-app
-          image: namanyash/sit737_10:v1
+          image: namanyash/sit737-ci-cd:tagversion
           ports:
             - containerPort: 5000
 ---
