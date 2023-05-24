@@ -8,11 +8,11 @@ pipeline {
                 CREDENTIALS_ID = 'kubernetes'		
 	}
     stages {	
-      stage('Scm checkout'{
+      stage('Scm checkout') {
          steps{
             checkout scm
          }
-      })
+      }
 	   stage('Test') { 
 		steps {
 	         echo "Testing..."
