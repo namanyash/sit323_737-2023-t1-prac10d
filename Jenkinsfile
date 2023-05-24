@@ -5,7 +5,7 @@ pipeline {
 		PROJECT_ID = 'sit737'
                 CLUSTER_NAME = 'sit737-cicd-cluster'
                 LOCATION = 'us-east1-d'
-                CREDENTIALS_ID = 'test'		
+                CREDENTIALS_ID = 'Kubernetes'		
 	}
     stages {	
       stage('Scm checkout') {
