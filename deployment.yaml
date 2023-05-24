@@ -27,11 +27,10 @@ metadata:
   labels:
     app: ci-cd-node-app
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8000
       protocol: TCP
       targetPort: 5000
-      nodePort: 30008
   selector:
     app: ci-cd-node-app
