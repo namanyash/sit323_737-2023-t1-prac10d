@@ -5,7 +5,7 @@ pipeline {
 		PROJECT_ID = 'sit737'
                 CLUSTER_NAME = 'sit737-cicd-cluster'
                 LOCATION = 'us-east1-d'
-                CREDENTIALS_ID = 'kubernetes'		
+                CREDENTIALS_ID = 'test'		
 	}
     stages {	
       stage('Scm checkout') {
@@ -52,7 +52,7 @@ pipeline {
                   sh "sed -i 's/tagversion/${env.BUILD_ID}/g' deployment.yaml"
                   echo "Start deployment of deployment.yaml"
                   step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
-		            echo "Deployment Finished ..."
+                  echo "Deployment Finished ..."
             }
 	   }
        
