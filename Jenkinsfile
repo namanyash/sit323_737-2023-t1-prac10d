@@ -2,10 +2,10 @@ pipeline {
     agent any 	
 	environment {
 		
-		PROJECT_ID = 'sit737'
+		PROJECT_ID = 'sit-737'
                 CLUSTER_NAME = 'sit737-cicd-cluster'
                 LOCATION = 'us-east1-d'
-                CREDENTIALS_ID = 'kubernetes'		
+                CREDENTIALS_ID = 'sit-737'		
 	}
     stages {	
       stage('Scm checkout') {
