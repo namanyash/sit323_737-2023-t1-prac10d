@@ -32,10 +32,13 @@ pipeline {
 	   stage("Push Docker Image") {
                 steps {
                    script {
-                      docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                      myimage.push("${env.BUILD_ID}")
-                     }   
-                   }
+                     echo "Push Docker Image"
+                     withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                              sh "docker login -u namanyash -p ${dockerhub}"
+                     }
+                        myimage.push("${env.BUILD_ID}")
+                     
+                  }
                 }
             }
 	   
