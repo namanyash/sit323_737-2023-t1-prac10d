@@ -17,7 +17,8 @@ pipeline {
 		steps {
 	         echo "Testing..."
             //do some tests
-            sleep(time:3,unit:"SECONDS")
+            // npm test
+            sleep(time:1,unit:"SECONDS")
             echo "Success"
 		}
 	   }
